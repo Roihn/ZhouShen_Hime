@@ -23,10 +23,11 @@ def open_dict():
         tmp_dict = eval(i)
         for key, value in tmp_dict.items():
             test_dict[key] = value
-        new_dict[test_dict['想换的标点']] = test_dict['换成的标点']
+        # new_dict[test_dict['想换的标点']] = test_dict['换成的标点']
     return new_dict
 
 def write_dict():
+    """
     bd2 = []
     for key, value in biaodian.items():
         tmp = {}
@@ -37,6 +38,8 @@ def write_dict():
         for i in bd2:
             fx.write(str(i))
             fx.write('\n')
+    """
+    pass
 
 class zhoushen_GUi(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -116,7 +119,7 @@ class zhoushen_GUi(QMainWindow, Ui_MainWindow):
         outlog = '源文件请放心，我一点没动\n\n花寄四人这么可爱，不关注一下吗┏(^ω^)=☞审核群718235402\n\n言归正传，这里是字符检查：\n'    
         # 用于写入txt的内容
         bd1 = ["'", '"', ',', '，']                   # 不知道咋换的标点（逗号是因为可能会有注释）
-        
+        """
         for i in range(len(self.line)):
             if self.line[i][:7] == 'Comment' or re.search(r",fx,", self.line[i]):      # 跳过注释
                 pass
@@ -155,6 +158,7 @@ class zhoushen_GUi(QMainWindow, Ui_MainWindow):
                         outlog += "第{}行轴的{}标点有问题，但是我给你换成了{}\n\n".format(
                             i+1, key, value)
         self.textBrowser.append('字符检查完成！')
+        """
         self.progressBar.setValue(9)
         self.progress_point = 9
         # 开始锤轴啦

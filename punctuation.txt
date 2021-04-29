@@ -1,0 +1,8 @@
+{'Wrong Punctuation': '。。。', 'Correct Punctuation': '…'}
+{'Wrong Punctuation': '‘', 'Correct Punctuation': '「'}
+{'Wrong Punctuation': '’', 'Correct Punctuation': '」'}
+{'Wrong Punctuation': '“', 'Correct Punctuation': '「'}
+{'Wrong Punctuation': '”', 'Correct Punctuation': '」'}
+{'Wrong Punctuation': '~', 'Correct Punctuation': '～'}
+{'Wrong Punctuation': '【', 'Correct Punctuation': '「'}
+{'Wrong Punctuation': '】', 'Correct Punctuation': '」'}

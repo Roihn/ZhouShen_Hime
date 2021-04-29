@@ -13,14 +13,14 @@
 
 # 1. 鹿乃也能看懂的轴审姬教程
 因为有了GUI，所以操作起来变得更加简单了\
-![image](https://github.com/HakuRemu/ZhouShen_Hime/blob/master/readme_images/Main%20interface.png)\
+![image](./readme_images/Main%20interface.png)\
 GUI界面里面的无脑改闪轴默认是关闭的，所以需要的话要手动点出来\
 点击“打开文件”就可以打开要锤的ass文件了，为了避免调戏轴审姬，所以默认只能打开ass文件\
 顺带一提，默认的轴审姬打开ass文件是在main程序所在的文件夹里面，所以为了方便起见建议把exe程序丢到你经常放ass文件的文件夹里面\
-![image](https://github.com/HakuRemu/ZhouShen_Hime/blob/master/readme_images/OpenFile.png)\
+![image](./readme_images/OpenFile.png)\
 打开文件之后，会显示ass文件的路径，文件打开成功会显示“文件读取成功！”\
 接下来就是开始锤轴的时候了！\
-![image](https://github.com/HakuRemu/ZhouShen_Hime/blob/master/readme_images/progress.png)\
+![image](./readme_images/progress.png)\
 锤轴时候的显示和之前的一样，在锤完之后会自动把改过的txt和ass文件保存到输入ass文件所在的目录里面
 
 # 2. 轴审姬的特性及高级使用方式
