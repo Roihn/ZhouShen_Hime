@@ -171,9 +171,12 @@ class zhoushen_GUi(QMainWindow, Ui_MainWindow):
         self.progressBar.setValue(100)
         self.textBrowser.append("看完了！")
         self.outlog += '看完了！\n'
-        with open(self.path + '改-' + self.name[:-4] + '.txt', 'w', encoding='utf-8') as ft:
+        dir = self.path + '修改版/'
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+        with open(dir + '改-' + self.name[:-4] + '.txt', 'w', encoding='utf-8') as ft:
             ft.writelines(self.outlog)
-        with open(self.path + '改-' + self.name, 'w', encoding='utf-8-sig') as fn:
+        with open(dir + self.name, 'w', encoding='utf-8-sig') as fn:
             fn.writelines(self.header)
             fn.writelines(self.line)
         reply = QMessageBox.question(self, '信息', '锤完了！',
