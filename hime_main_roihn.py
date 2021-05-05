@@ -7,12 +7,12 @@ import re
 from asstm import *
 
 from hime_ui2_0 import Ui_MainWindow
+from utils import wrong_name_list
 
 
 
 
-
-required_type = 'Default'
+required_types = ['paripi','miku', 'Default']
 biaodian = {'。。。': '...', '。': ' ', '‘': '「', '’': '」', '・・・': '...', '···': '...',
         '“': '「', '”': '」', '、': ' ', '~': '～', '!': '！', '?': '？', '　': ' ', '【': '「', '】': '」'}      # 默认要替换的标点
 emend_mark = ["xx","??","？？"]
@@ -21,7 +21,8 @@ output_header = """
 ##########################真的晒字幕组###############################
 ####################################################################
 ########################专用*对话轴*审轴姬###########################
-####################################################################\n\n
+####################################################################
+*只修改样式为"Default"的轴\n\n
 """
 def open_dict():
     with open('punctuation.txt', 'r', encoding='utf-8') as fx:
@@ -32,7 +33,7 @@ def open_dict():
     new_dict = {}
     for i in lin:
         tmp_dict = eval(i)
-        print(tmp_dict)
+        # print(tmp_dict)
         for key, value in tmp_dict.items():
             test_dict[key] = value
         new_dict[test_dict['Wrong Punctuation']] = test_dict['Correct Punctuation']
@@ -115,58 +116,61 @@ class zhoushen_GUi(QMainWindow, Ui_MainWindow):
         self.progressBar.setValue(0)
 
     def kai_shi(self):
-        # 读取时间和位置
-        self.info_list = []
-        for i, l in enumerate(self.line):
-            if not re.search(r",fx,",l) and l[:7] != 'Comment':
-                entries = l.rstrip().split(',')
-                if entries[3] != required_type:
-                    continue
-                tmp_info_dict = {
-                    "start": entries[1],
-                    "end": entries[2],
-                    "index": i+1
-                }
-                self.info_list.append(tmp_info_dict)
-
-        # 先检查符号
         self.outlog = output_header
-        self.textBrowser.append('##############开始字符检查#################')
-        self.outlog += '##############开始字符检查#################\n'
-        self.char_check()
-        self.textBrowser.append('##############字符检查完毕#################')
-        self.outlog += '##############字符检查完毕#################\n\n'
+        ckpt = 0
+        for required_type in required_types:
+            # 读取时间和位置
+            self.info_list = []
+            for i, l in enumerate(self.line):
+                if not re.search(r",fx,",l) and l[:7] != 'Comment':
+                    entries = l.rstrip().split(',')
+                    if entries[3] != required_type:
+                        continue
+                    tmp_info_dict = {
+                        "start": entries[1],
+                        "end": entries[2],
+                        "index": i+1
+                    }
+                    self.info_list.append(tmp_info_dict)
+            # 先检查符号
+            self.print_log("required_type = {}".format(required_type))
+            self.textBrowser.append('##############开始字符检查#################')
+            self.outlog += '##############开始字符检查#################\n'
+            self.char_check()
+            self.textBrowser.append('##############字符检查完毕#################')
+            self.outlog += '##############字符检查完毕#################\n\n'
 
-        self.progressBar.setValue(9)
-        self.progress_point = 9
-        # 开始锤轴啦
+            self.progressBar.setValue(9)
+            self.progress_point = 9
+            # 开始锤轴啦
 
-        lenth = len(self.info_list)              # 总行数
-        ckpt = round(lenth / 90)        # 进度条计数器
-        
-        # Sort all the lines with required_type based on start time
-        self.info_list = sorted(self.info_list, key=lambda info:info['start'])
+            length = len(self.info_list)              # 总行数
 
-        # 查行内的闪轴
-        self.textBrowser.append('##############开始行内闪轴检查#################')
-        self.outlog += '##############开始行内闪轴检查#################\n'
-        self.inline_flash_check()
-        self.textBrowser.append('##############行内闪轴检查完毕#################')
-        self.outlog += '##############行内闪轴检查完毕#################\n\n'
-        
-        # 查行间的闪轴
-        self.textBrowser.append('##############开始行间闪轴检查#################')
-        self.outlog += '##############开始行间闪轴检查#################\n'
-        self.inter_flash_check()
-        self.textBrowser.append('##############行间闪轴检查完毕#################')
-        self.outlog += '##############行间闪轴检查完毕#################\n\n'
+            # Sort all the lines with required_type based on start time
+            self.info_list = sorted(self.info_list, key=lambda info:info['start'])
 
-        # 查行间的重叠
-        self.textBrowser.append('##############开始行间重叠检查#################')
-        self.outlog += '##############开始行间重叠检查#################\n'
-        self.overlap_check()
-        self.textBrowser.append('##############行间重叠检查完毕#################')
-        self.outlog += '##############行间重叠检查完毕#################\n\n'
+            # 查行内的闪轴
+            self.textBrowser.append('##############开始行内闪轴检查#################')
+            self.outlog += '##############开始行内闪轴检查#################\n'
+            self.inline_flash_check()
+            self.textBrowser.append('##############行内闪轴检查完毕#################')
+            self.outlog += '##############行内闪轴检查完毕#################\n\n'
+            
+            # 查行间的闪轴
+            self.textBrowser.append('##############开始行间闪轴检查#################')
+            self.outlog += '##############开始行间闪轴检查#################\n'
+            self.inter_flash_check()
+            self.textBrowser.append('##############行间闪轴检查完毕#################')
+            self.outlog += '##############行间闪轴检查完毕#################\n\n'
+
+            # 查行间的重叠
+            self.textBrowser.append('##############开始行间重叠检查#################')
+            self.outlog += '##############开始行间重叠检查#################\n'
+            self.overlap_check()
+            self.textBrowser.append('##############行间重叠检查完毕#################')
+            self.outlog += '##############行间重叠检查完毕#################\n\n'
+
+            self.progressBar.setValue(ckpt + round(100/len(required_types)))
 
         self.progressBar.setValue(100)
         self.textBrowser.append("看完了！")
@@ -202,10 +206,10 @@ class zhoushen_GUi(QMainWindow, Ui_MainWindow):
         """检查行内闪轴问题."""
         ckpt = round(len(self.info_list)/10)
         for i in range(len(self.info_list)): 
-            if i % ckpt == 0:
-                if self.progress_point <= 99:
-                    self.progress_point += 1
-                    self.progressBar.setValue(self.progress_point)
+            # if i % ckpt == 0:
+            #     if self.progress_point <= 99:
+            #         self.progress_point += 1
+            #         self.progressBar.setValue(self.progress_point)
 
             # 先锤单行自己的闪轴
             tdelta1 = timedelta(self.info_list[i]['end'], self.info_list[i]['start'])                   # 轴的时间
@@ -253,10 +257,10 @@ class zhoushen_GUi(QMainWindow, Ui_MainWindow):
         """检查行间闪轴问题."""
         ckpt = round(len(self.info_list)/70)
         for i in range(len(self.info_list)-1): # 无需检查最后一行 
-            if i % ckpt == 0:
-                if self.progress_point <= 99:
-                    self.progress_point += 1
-                    self.progressBar.setValue(self.progress_point)
+            # if i % ckpt == 0:
+            #     if self.progress_point <= 99:
+            #         self.progress_point += 1
+            #         self.progressBar.setValue(self.progress_point)
             # 锤行与行之间的闪轴
             tdelta = timedelta(self.info_list[i+1]['start'], self.info_list[i]['end'])                   # 轴的时间
             if tdelta < 0.289 and tdelta > 0: 
@@ -276,10 +280,10 @@ class zhoushen_GUi(QMainWindow, Ui_MainWindow):
         """检查行间重叠问题."""
         ckpt = round(len(self.info_list)/10)
         for i in range(len(self.info_list)-1): # 无需检查最后一行 
-            if i % ckpt == 0:
-                if self.progress_point <= 99:
-                    self.progress_point += 1
-                    self.progressBar.setValue(self.progress_point)
+            # if i % ckpt == 0:
+            #     if self.progress_point <= 99:
+            #         self.progress_point += 1
+            #         self.progressBar.setValue(self.progress_point)
 
             if self.info_list[i]['end'] > self.info_list[i+1]['start']:
                 msg = "第{}行轴与第{}行轴有重叠，请检查（{}）".format(
